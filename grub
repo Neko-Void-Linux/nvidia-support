@@ -1,12 +1,12 @@
 #
 # Configuration file for GRUB.
 #
-GRUB_DEFAULT="Neko Void GNU/Linux, with Linux 6.18.38_1"
+GRUB_DEFAULT=0
 #GRUB_HIDDEN_TIMEOUT=0
 #GRUB_HIDDEN_TIMEOUT_QUIET=false
 GRUB_TIMEOUT=5
 GRUB_DISTRIBUTOR="Neko Void"
-GRUB_CMDLINE_LINUX_DEFAULT="loglevel=4 quiet nouveau.modeset=0 nvidia-drm.modeset=1"
+GRUB_CMDLINE_LINUX_DEFAULT="loglevel=4 quiet nouveau.modeset=0 nvidia-drm.modeset=1 nvidia-drm.fbdev=1"
 # Uncomment to use basic console
 #GRUB_TERMINAL_INPUT="console"
 # Uncomment to disable graphical terminal
