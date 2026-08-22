@@ -44,7 +44,7 @@ echo "==> Instalando dependencias (Nvidia 580 Proprietary)..."
 KVER=$(uname -r | cut -d'.' -f1-2)
 echo "==> Kernel activo detectado: $(uname -r). Instalando cabeceras linux${KVER}-headers..."
 xbps-install -Sy mesa-dri mesa-dri-32bit nvidia580 nvidia580-dkms nvidia580-firmware nvidia580-gtklibs \
- nvidia580-libs nvidia580-opencl nvidia580-libs-32bit nvidia-vaapi-driver egl-wayland \
+ nvidia580-libs nvidia580-opencl nvidia580-libs-32bit nvidia-vaapi-driver \
  SDL2-32bit SDL2 libGL-32bit "linux${KVER}-headers"
 
 echo "==> Aplicando configuración del sistema..."
@@ -58,7 +58,7 @@ echo "==> Kernel activo detectado: $(uname -r). Instalando cabeceras linux${KVER
 xbps-install -Sy mesa-dri mesa-dri-32bit nvidia nvidia-dkms \
  nvidia-firmware nvidia-gtklibs nvidia-gtklibs-32bit nvidia-libs nvidia-libs-32bit \
  nvidia-opencl nvidia-opencl-32bit nvidia-vaapi-driver nvidia-docker nvidia-container-toolkit \
- egl-wayland SDL2-32bit SDL2 libGL-32bit "linux${KVER}-headers"
+ SDL2-32bit SDL2 libGL-32bit "linux${KVER}-headers"
 
 echo "==> Aplicando configuración del sistema..."
 bash "$BASE_DIR/nvidia-config.sh"
@@ -68,10 +68,8 @@ open(){
 echo "==> Instalando dependencias (Nvidia Open)..."
 KVER=$(uname -r | cut -d'.' -f1-2)
 echo "==> Kernel activo detectado: $(uname -r). Instalando cabeceras linux${KVER}-headers..."
-xbps-install -Sy mesa-dri mesa-dri-32bit nvidia nvidia-open-dkms \
- nvidia-firmware nvidia-gtklibs nvidia-gtklibs-32bit nvidia-libs nvidia-libs-32bit \
- nvidia-opencl nvidia-opencl-32bit nvidia-vaapi-driver nvidia-docker nvidia-container-toolkit \
- egl-wayland SDL2-32bit SDL2 libGL-32bit "linux${KVER}-headers"
+xbps-install -Sy mesa-dri mesa-dri-32bit mesa-nouveau-dri mesa-vulkan-nouveau mesa-nouveau-dri-32bit mesa-vulkan-nouveau-32bit xf86-video-nouveau \
+SDL2-32bit SDL2 libGL-32bit "linux${KVER}-headers"
 
 echo "==> Aplicando configuración del sistema..."
 bash "$BASE_DIR/nvidia-config.sh"
