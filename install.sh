@@ -57,7 +57,7 @@ KVER=$(uname -r | cut -d'.' -f1-2)
 echo "==> Kernel activo detectado: $(uname -r). Instalando cabeceras linux${KVER}-headers..."
 xbps-install -Sy mesa-dri mesa-dri-32bit nvidia nvidia-dkms \
  nvidia-firmware nvidia-gtklibs nvidia-gtklibs-32bit nvidia-libs nvidia-libs-32bit \
- nvidia-opencl nvidia-opencl-32bit nvidia-vaapi-driver nvidia-docker nvidia-container-toolkit \
+ nvidia-opencl nvidia-vaapi-driver nvidia-docker nvidia-container-toolkit \
  SDL2-32bit SDL2 libGL-32bit "linux${KVER}-headers"
 
 echo "==> Aplicando configuración del sistema..."
