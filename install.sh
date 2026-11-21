@@ -1,4 +1,4 @@
-#! /usr/bin/env bash
+#!/usr/bin/env bash
 
 # Verificar permisos de root
 if [ "$EUID" -ne 0 ]; then
@@ -64,22 +64,44 @@ echo "==> Aplicando configuración del sistema..."
 bash "$BASE_DIR/nvidia-config.sh"
 }
 
-open(){
-echo "==> Instalando dependencias (Nvidia Open)..."
+open620(){
+echo "==> Instalando dependencias (Nvidia Open 620.73.04 - Turing/RTX+)..."
 KVER=$(uname -r | cut -d'.' -f1-2)
-echo "==> Kernel activo detectado: $(uname -r). Instalando cabeceras linux${KVER}-headers..."
-xbps-install -Sy mesa-dri mesa-dri-32bit mesa-nouveau-dri mesa-vulkan-nouveau mesa-nouveau-dri-32bit mesa-vulkan-nouveau-32bit xf86-video-nouveau \
-SDL2-32bit SDL2 libGL-32bit "linux${KVER}-headers"
+echo "==> Kernel activo detectado: $(uname -r)."
+
+# Solo intenta instalar linuxX.Y-headers si existe en los repos (evita fallo en kernels custom)
+HEADERS_PKG=""
+if xbps-query -R "linux${KVER}-headers" >/dev/null 2>&1; then
+  HEADERS_PKG="linux${KVER}-headers"
+  echo "==> Cabeceras encontradas en repositorio: ${HEADERS_PKG}"
+else
+  echo "==> Kernel personalizado detectado ($(uname -r)); usando cabeceras locales en /lib/modules."
+fi
+
+xbps-install -Sy mesa-dri mesa-dri-32bit nvidia-open-620 \
+ nvidia-vaapi-driver SDL2-32bit SDL2 libGL-32bit ${HEADERS_PKG}
+
+echo "==> El paquete nvidia-open-620 ya incluye DKMS, blacklist nouveau/nova y dracut."
+echo "==> Instalación completada. Reinicia para cargar el driver."
+}
+
+nouveau(){
+echo "==> Instalando drivers libres (Mesa / Nouveau / NVK)..."
+KVER=$(uname -r | cut -d'.' -f1-2)
+xbps-install -Sy mesa-dri mesa-dri-32bit mesa-nouveau-dri mesa-vulkan-nouveau \
+ mesa-nouveau-dri-32bit mesa-vulkan-nouveau-32bit xf86-video-nouveau \
+ SDL2-32bit SDL2 libGL-32bit
 
 echo "==> Aplicando configuración del sistema..."
 bash "$BASE_DIR/nvidia-config.sh"
 }
 
 case "$1" in
-  390)390 ;;
-  470)470 ;;
-  580)580 ;;
-  latest)latest ;;
-  open)open ;;
-  *) echo "Uso: $0 {390|470|580|latest|open}"; exit 1 ;;
+  390) 390 ;;
+  470) 470 ;;
+  580) 580 ;;
+  latest) latest ;;
+  open|open620) open620 ;;
+  nouveau) nouveau ;;
+  *) echo "Uso: $0 {390|470|580|latest|open620|nouveau}"; exit 1 ;;
 esac
