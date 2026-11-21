@@ -64,25 +64,18 @@ echo "==> Aplicando configuración del sistema..."
 bash "$BASE_DIR/nvidia-config.sh"
 }
 
-open620(){
-echo "==> Instalando dependencias (Nvidia Open 620.73.04 - Turing/RTX+)..."
+open(){
+echo "==> Instalando dependencias (Nvidia Open 620.73.04)..."
 KVER=$(uname -r | cut -d'.' -f1-2)
 echo "==> Kernel activo detectado: $(uname -r)."
 
-# Solo intenta instalar linuxX.Y-headers si existe en los repos (evita fallo en kernels custom)
 HEADERS_PKG=""
 if xbps-query -R "linux${KVER}-headers" >/dev/null 2>&1; then
   HEADERS_PKG="linux${KVER}-headers"
-  echo "==> Cabeceras encontradas en repositorio: ${HEADERS_PKG}"
-else
-  echo "==> Kernel personalizado detectado ($(uname -r)); usando cabeceras locales en /lib/modules."
 fi
 
 xbps-install -Sy mesa-dri mesa-dri-32bit nvidia-open-620 \
  nvidia-vaapi-driver SDL2-32bit SDL2 libGL-32bit ${HEADERS_PKG}
-
-echo "==> El paquete nvidia-open-620 ya incluye DKMS, blacklist nouveau/nova y dracut."
-echo "==> Instalación completada. Reinicia para cargar el driver."
 }
 
 nouveau(){
