@@ -126,3 +126,6 @@ BSD 2-Clause License - see the LICENSE file for details.
 
 - Original patches by Joan Bruguera
 - Void Linux adaptation by Neko-Void-Linux and ANOMALI0x00
+
+## extra mirror for nvidia installer
+https://download.nvidia.com/XFree86/Linux-x86_64/
